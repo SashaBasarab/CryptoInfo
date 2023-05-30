@@ -18,11 +18,22 @@ import com.example.cryptoinfo.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,43 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAnchorView(R.id.fab)
                         .setAction("Action", null).show();
+            }
+        });
+
+        textView = findViewById(R.id.textview_first);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://api.bitcoincharts.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        Call<List<Coin>> call = jsonPlaceHolderApi.getCoins();
+
+        call.enqueue(new Callback<List<Coin>>() {
+            @Override
+            public void onResponse(Call<List<Coin>> call, Response<List<Coin>> response) {
+                if (!response.isSuccessful()) {
+                    textView.setText("Code: " + response.code());
+                    return;
+                }
+
+                List<Coin> coins = response.body();
+
+                for (int i = 0; i < 15; i++) {
+                    String content = "";
+                    content += "Currency volume: " + coins.get(i).getCurrencyVolume() + "\n";
+                    content += "Symbol: " + coins.get(i).getSymbol() + "\n";
+                    content += "Currency: " + coins.get(i).getCurrency() + "\n";
+
+                    textView.append(content);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Coin>> call, Throwable t) {
+                textView.setText(t.getMessage());
             }
         });
     }
