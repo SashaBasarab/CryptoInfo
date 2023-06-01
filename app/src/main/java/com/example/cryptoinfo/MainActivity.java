@@ -2,6 +2,7 @@ package com.example.cryptoinfo;
 
 import android.os.Bundle;
 
+import com.example.cryptoinfo.databinding.FragmentFirstBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,36 +32,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
-
+    private FragmentFirstBinding binding;
     private TextView textView;
+    private final String  apiUrl = "http://api.bitcoincharts.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = FragmentFirstBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        textView = findViewById(R.id.textview_first);
+        textView = binding.textviewFirst;
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.bitcoincharts.com/")
+                .baseUrl(apiUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
