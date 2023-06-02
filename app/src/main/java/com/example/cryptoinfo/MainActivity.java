@@ -14,6 +14,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptoinfo.databinding.ActivityMainBinding;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private FragmentFirstBinding binding;
     private TextView textView;
+    private RecyclerView recyclerView;
     private final String  apiUrl = "http://api.bitcoincharts.com/";
 
     @Override
@@ -43,7 +46,10 @@ public class MainActivity extends AppCompatActivity {
         binding = FragmentFirstBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        textView = binding.textviewFirst;
+        recyclerView = binding.recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+//        textView = binding.textviewFirst;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(apiUrl)
@@ -57,21 +63,30 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Coin>>() {
             @Override
             public void onResponse(Call<List<Coin>> call, Response<List<Coin>> response) {
-                if (!response.isSuccessful()) {
-                    textView.setText("Code: " + response.code());
-                    return;
-                }
+//                if (!response.isSuccessful()) {
+//                    textView.setText("Code: " + response.code());
+//                    return;
+//                }
 
                 List<Coin> coins = response.body();
+                CoinAdapter adapter = new CoinAdapter(coins);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(adapter);
+                adapter.setCoins(coins);
+                adapter.notifyDataSetChanged();
 
-                for (int i = 0; i < 15; i++) {
-                    String content = "";
-                    content += "Currency volume: " + coins.get(i).getCurrencyVolume() + "\n";
-                    content += "Symbol: " + coins.get(i).getSymbol() + "\n";
-                    content += "Currency: " + coins.get(i).getCurrency() + "\n";
 
-                    textView.append(content);
-                }
+
+//                for (int i = 0; i < 15; i++) {
+//                    String content = "";
+//                    content += "Currency volume: " + coins.get(i).getCurrencyVolume() + "\n";
+//                    content += "Symbol: " + coins.get(i).getSymbol() + "\n";
+//                    content += "Currency: " + coins.get(i).getCurrency() + "\n";
+//
+//                    textView.append(content);
+//                }
             }
 
             @Override
