@@ -15,9 +15,9 @@ import lombok.Setter;
 
 @Setter @Getter
 public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
-    private List<Coin> coins;
+    private List<Datum> coins;
 
-    public CoinAdapter(List<Coin> coins) {
+    public CoinAdapter(List<Datum> coins) {
         this.coins = coins;
     }
 
@@ -30,14 +30,19 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Coin coin = coins.get(position);
+        if(coins!=null&&!coins.isEmpty()) {
+            Datum coin = coins.get(position);
 
-        String content = "";
-        content += "Name: " + coin.getName() + "\n";
-        content += "Symbol: " + coin.getSymbol() + "\n";
-        content += "Price: " + coin.getPriceUsd() + "\n";
+            String content = "";
+//            content += "Name: " + coin.getName() + "\n";
+//            content += "Symbol: " + coin.getSymbol() + "\n";
+//            content += "Price: " + coin.getPriceUsd() + "\n";
+            content += "Name: " + coin.name + "\n";
+            content += "Symbol: " + coin.symbol + "\n";
+            content += "Price: " + coin.priceUsd + "\n";
 
-        holder.textView.setText(content);
+            holder.textView.setText(content);
+        }
     }
 
     @Override

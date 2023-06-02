@@ -60,26 +60,28 @@ public class MainActivity extends AppCompatActivity {
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<List<Coin>> call = jsonPlaceHolderApi.getCoins();
+        Call<Root> call = jsonPlaceHolderApi.getCoins();
 
-        call.enqueue(new Callback<List<Coin>>() {
+        call.enqueue(new Callback<Root>() {
             @Override
-            public void onResponse(Call<List<Coin>> call, Response<List<Coin>> response) {
+            public void onResponse(Call<Root> call, Response<Root> response) {
 //                if (!response.isSuccessful()) {
 //                    textView.setText("Code: " + response.code());
 //                    return;
 //                }
 
-                List<Coin> coins = response.body();
-                CoinAdapter adapter = new CoinAdapter(coins);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(adapter);
-                adapter.setCoins(coins);
-                adapter.notifyDataSetChanged();
-
-
+                if(response.isSuccessful()) {
+                    if(response.body()!=null && !response.body().data.isEmpty()) {
+                        List<Datum> coins = response.body().data;
+                        CoinAdapter adapter = new CoinAdapter(coins);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setAdapter(adapter);
+                        adapter.setCoins(coins);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
 
 //                for (int i = 0; i < 15; i++) {
 //                    String content = "";
@@ -92,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Coin>> call, Throwable t) {
-                textView.setText(t.getMessage());
+            public void onFailure(Call<Root> call, Throwable t) {
+//                textView.setText(t.getMessage());
+                t.getMessage();
             }
         });
     }

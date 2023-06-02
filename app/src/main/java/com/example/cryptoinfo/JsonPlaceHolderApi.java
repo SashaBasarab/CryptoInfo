@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface JsonPlaceHolderApi {
 
-    @GET("v2/assets.json")
-    Call<List<Coin>> getCoins();
+    @GET("v2/assets")
+    Call<Root> getCoins();
 
 }
