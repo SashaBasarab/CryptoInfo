@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.view.WindowCompat;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentFirstBinding binding;
     private TextView textView;
     private RecyclerView recyclerView;
-    private final String  apiUrl = "http://api.bitcoincharts.com/";
+    private final String  apiUrl = "https://api.coincap.io/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

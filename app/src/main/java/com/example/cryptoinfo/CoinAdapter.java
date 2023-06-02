@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+@Setter @Getter
 public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     private List<Coin> coins;
 
@@ -32,9 +33,9 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         Coin coin = coins.get(position);
 
         String content = "";
-        content += "Currency volume: " + coin.getCurrencyVolume() + "\n";
+        content += "Name: " + coin.getName() + "\n";
         content += "Symbol: " + coin.getSymbol() + "\n";
-        content += "Currency: " + coin.getCurrency() + "\n";
+        content += "Price: " + coin.getPriceUsd() + "\n";
 
         holder.textView.setText(content);
     }
