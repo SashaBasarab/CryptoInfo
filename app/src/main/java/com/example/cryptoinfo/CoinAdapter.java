@@ -46,7 +46,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
             holder.coinName = coin.getName();
             holder.textView.setText(content);
-            holder.button.setText("Details");
         }
     }
 
@@ -57,7 +56,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
-
         public Button button;
         public String coinName;
 

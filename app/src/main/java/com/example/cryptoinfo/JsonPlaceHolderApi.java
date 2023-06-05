@@ -1,16 +1,15 @@
 package com.example.cryptoinfo;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
 
     @GET("v2/assets")
-    Call<Root> getCoins();
+    Call<CoinsList> getCoins();
 
-    @GET("/")
-    Call<Root> getCoin();
+    @GET("v2/assets/{coin}")
+    Call<CoinDetails> getCoin(@Path("coin") String coin);
 
 }

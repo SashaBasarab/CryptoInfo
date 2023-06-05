@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,11 +13,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.cryptoinfo.databinding.CoinDeatilsBinding;
-import com.example.cryptoinfo.databinding.FragmentFirstBinding;
 
 import java.util.List;
 
@@ -28,22 +28,47 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CoinDetailsActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
     private CoinDeatilsBinding binding;
-    private TextView textView;
-    private String  apiUrl = "https://api.coincap.io/v2/assets/";
+    private String apiUrl = "https://api.coincap.io/";
+
+    private String dummyImage = "https://loremflickr.com/200/200/crypto";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        apiUrl += intent.getStringExtra("coin_name").toLowerCase() + "/";
+        String coin = intent.getStringExtra("coin_name").toLowerCase();
 
         binding = CoinDeatilsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        textView = binding.textview;
+        binding.toolbar.setTitle(coin);
+        setSupportActionBar(binding.toolbar);
+
+        //
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //
+
+        try {
+            binding.imageView.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(dummyImage)
+                    // avoid caching to show different images each time
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(binding.imageView);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            binding.imageView.setVisibility(View.GONE);
+        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(apiUrl)
@@ -52,25 +77,25 @@ public class CoinDetailsActivity extends AppCompatActivity {
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<Root> call = jsonPlaceHolderApi.getCoin();
+        Call<CoinDetails> call = jsonPlaceHolderApi.getCoin(coin);
 
-        call.enqueue(new Callback<Root>() {
+        call.enqueue(new Callback<CoinDetails>() {
             @Override
-            public void onResponse(Call<Root> call, Response<Root> response) {
+            public void onResponse(Call<CoinDetails> call, Response<CoinDetails> response) {
                 if (!response.isSuccessful()) {
-                    textView.setText("Code: " + response.code());
+                    binding.textview.setText("Code: " + response.code());
                     return;
                 }
 
-                if(response.isSuccessful()) {
-                    if(response.body()!=null && !response.body().data.isEmpty()) {
-                        List<Coin> coins = response.body().data;
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().data != null) {
+                        Coin coins = response.body().data;
                         String content = "";
-                        content += "Name: " + coins.get(0).getName() + "\n";
-                        content += "Symbol: " + coins.get(0).getSymbol() + "\n";
-                        content += "Price: " + coins.get(0).getPriceUsd() + "\n";
+                        content += "Name: " + coins.getName() + "\n";
+                        content += "Symbol: " + coins.getSymbol() + "\n";
+                        content += "Price: " + coins.getPriceUsd() + "\n";
 
-                        textView.append(content);
+                        binding.textview.append(content);
                     }
                 }
 
@@ -85,40 +110,11 @@ public class CoinDetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Root> call, Throwable t) {
-//                textView.setText(t.getMessage());
+            public void onFailure(Call<CoinDetails> call, Throwable t) {
                 t.getMessage();
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }
