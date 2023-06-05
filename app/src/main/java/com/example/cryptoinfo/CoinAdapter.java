@@ -3,6 +3,7 @@ package com.example.cryptoinfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             content += "Price: " + coin.getPriceUsd() + "\n";
 
             holder.textView.setText(content);
+            holder.button.setText("Details");
         }
     }
 
@@ -53,9 +55,12 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
 
+        public Button button;
+
         public ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textView);
+            button = itemView.findViewById(R.id.button);
         }
     }
 }
