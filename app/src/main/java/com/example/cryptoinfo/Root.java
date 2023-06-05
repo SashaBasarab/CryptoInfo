@@ -3,6 +3,6 @@ package com.example.cryptoinfo;
 import java.util.ArrayList;
 
 public class Root{
-    public ArrayList<Datum> data;
+    public ArrayList<Coin> data;
     public long timestamp;
 }

@@ -23,6 +23,7 @@ import com.example.cryptoinfo.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(response.isSuccessful()) {
                     if(response.body()!=null && !response.body().data.isEmpty()) {
-                        List<Datum> coins = response.body().data;
+                        List<Coin> coins = response.body().data;
                         CoinAdapter adapter = new CoinAdapter(coins);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                         recyclerView.setLayoutManager(layoutManager);
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Root> call, Throwable t) {
 //                textView.setText(t.getMessage());
                 t.getMessage();
+                Toast.makeText(getApplicationContext(), "Ваше повідомлення", Toast.LENGTH_SHORT).show();
             }
         });
     }
