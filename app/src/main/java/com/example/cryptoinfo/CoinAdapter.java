@@ -1,5 +1,7 @@
 package com.example.cryptoinfo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             content += "Symbol: " + coin.getSymbol() + "\n";
             content += "Price: " + coin.getPriceUsd() + "\n";
 
+            holder.coinName = coin.getName();
             holder.textView.setText(content);
             holder.button.setText("Details");
         }
@@ -56,11 +59,24 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         public TextView textView;
 
         public Button button;
+        public String coinName;
 
         public ViewHolder(View itemView) {
+
             super(itemView);
             textView = itemView.findViewById(R.id.textView);
             button = itemView.findViewById(R.id.button);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Здійснити перехід на нову активність
+                    Context context = itemView.getContext();
+                    Intent intent = new Intent(context, CoinDetailsActivity.class);
+                    intent.putExtra("coin_name", coinName);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

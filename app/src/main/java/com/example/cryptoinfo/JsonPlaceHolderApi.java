@@ -10,4 +10,7 @@ public interface JsonPlaceHolderApi {
     @GET("v2/assets")
     Call<Root> getCoins();
 
+    @GET("/")
+    Call<Root> getCoin();
+
 }

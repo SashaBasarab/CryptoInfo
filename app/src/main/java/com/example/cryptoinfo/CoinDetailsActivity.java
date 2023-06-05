@@ -1,16 +1,13 @@
 package com.example.cryptoinfo;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.cryptoinfo.databinding.FragmentFirstBinding;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
-import android.view.View;
-
-import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,14 +15,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cryptoinfo.databinding.ActivityMainBinding;
+import com.example.cryptoinfo.databinding.CoinDeatilsBinding;
+import com.example.cryptoinfo.databinding.FragmentFirstBinding;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,25 +26,24 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class CoinDetailsActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private FragmentFirstBinding binding;
+    private CoinDeatilsBinding binding;
     private TextView textView;
-    private RecyclerView recyclerView;
-    private final String  apiUrl = "https://api.coincap.io/";
+    private String  apiUrl = "https://api.coincap.io/v2/assets/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = FragmentFirstBinding.inflate(getLayoutInflater());
+        Intent intent = getIntent();
+        apiUrl += intent.getStringExtra("coin_name").toLowerCase() + "/";
+
+        binding = CoinDeatilsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        recyclerView = binding.recyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-//        textView = binding.textviewFirst;
+        textView = binding.textview;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(apiUrl)
@@ -61,26 +52,25 @@ public class MainActivity extends AppCompatActivity {
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<Root> call = jsonPlaceHolderApi.getCoins();
+        Call<Root> call = jsonPlaceHolderApi.getCoin();
 
         call.enqueue(new Callback<Root>() {
             @Override
             public void onResponse(Call<Root> call, Response<Root> response) {
-//                if (!response.isSuccessful()) {
-//                    textView.setText("Code: " + response.code());
-//                    return;
-//                }
+                if (!response.isSuccessful()) {
+                    textView.setText("Code: " + response.code());
+                    return;
+                }
 
                 if(response.isSuccessful()) {
                     if(response.body()!=null && !response.body().data.isEmpty()) {
                         List<Coin> coins = response.body().data;
-                        CoinAdapter adapter = new CoinAdapter(coins);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setAdapter(adapter);
-                        adapter.setCoins(coins);
-                        adapter.notifyDataSetChanged();
+                        String content = "";
+                        content += "Name: " + coins.get(0).getName() + "\n";
+                        content += "Symbol: " + coins.get(0).getSymbol() + "\n";
+                        content += "Price: " + coins.get(0).getPriceUsd() + "\n";
+
+                        textView.append(content);
                     }
                 }
 
