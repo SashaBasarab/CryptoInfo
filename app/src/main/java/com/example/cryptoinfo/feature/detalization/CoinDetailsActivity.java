@@ -77,19 +77,21 @@ public class CoinDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CoinDetails> call, Response<CoinDetails> response) {
                 if (!response.isSuccessful()) {
-                    binding.textview.setText("Code: " + response.code());
+                    binding.textViewName.setText("Code: " + response.code());
                     return;
                 }
 
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().data != null) {
                         Coin coins = response.body().data;
-                        String content = "";
-                        content += "Name: " + coins.getName() + "\n";
-                        content += "Symbol: " + coins.getSymbol() + "\n";
-                        content += "Price: " + coins.getPriceUsd() + "\n";
-
-                        binding.textview.append(content);
+//                        String content = "";
+//                        content += "Name: " + coins.getName() + "\n";
+//                        content += "Symbol: " + coins.getSymbol() + "\n";
+//                        content += "Price: " + coins.getPriceUsd() + "\n";
+                        binding.textViewName.setText("Name: " + coins.getName());
+                        binding.textViewSymbol.setText("Symbol: " + coins.getSymbol());
+                        binding.textViewPrice.setText("Price: " + coins.getPriceUsd());
+//                        binding.textview.append(content);
                     }
                 }
 

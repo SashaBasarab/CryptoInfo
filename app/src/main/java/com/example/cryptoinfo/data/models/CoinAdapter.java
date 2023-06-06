@@ -39,16 +39,18 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         if(coins!=null&&!coins.isEmpty()) {
             Coin coin = coins.get(position);
 
-            String content = "";
+//            String content = "";
 //            content += "Name: " + coin.getName() + "\n";
 //            content += "Symbol: " + coin.getSymbol() + "\n";
 //            content += "Price: " + coin.getPriceUsd() + "\n";
-            content += "Name: " + coin.getName() + "\n";
-            content += "Symbol: " + coin.getSymbol() + "\n";
-            content += "Price: " + coin.getPriceUsd() + "\n";
+//            content += "Name: " + coin.getName() + "\n";
+//            content += "Symbol: " + coin.getSymbol() + "\n";
+//            content += "Price: " + coin.getPriceUsd() + "\n";
 
             holder.coinName = coin.getName();
-            holder.textView.setText(content);
+            holder.textViewName.setText("Name: " + coin.getName());
+            holder.textViewSymbol.setText("Symbol: " + coin.getSymbol());
+            holder.textViewPrice.setText("Price: " + coin.getPriceUsd());
         }
     }
 
@@ -58,14 +60,18 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView textViewName;
+        public TextView textViewSymbol;
+        public TextView textViewPrice;
         public Button button;
         public String coinName;
 
         public ViewHolder(View itemView) {
 
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            textViewName = itemView.findViewById(R.id.textViewName);
+            textViewSymbol = itemView.findViewById(R.id.textViewSymbol);
+            textViewPrice = itemView.findViewById(R.id.textViewPrice);
             button = itemView.findViewById(R.id.button);
 
             button.setOnClickListener(new View.OnClickListener() {
