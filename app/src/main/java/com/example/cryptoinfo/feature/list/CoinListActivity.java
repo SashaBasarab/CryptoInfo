@@ -41,8 +41,6 @@ public class CoinListActivity extends AppCompatActivity {
         binding.toolbar.setTitle("Sasha Basarab IPZs-21-2");
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        textView = binding.textviewFirst;
-
         CustomInterceptor customInterceptor = new CustomInterceptor();
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(customInterceptor)
@@ -61,10 +59,10 @@ public class CoinListActivity extends AppCompatActivity {
         call.enqueue(new Callback<CoinsList>() {
             @Override
             public void onResponse(Call<CoinsList> call, Response<CoinsList> response) {
-//                if (!response.isSuccessful()) {
-//                    textView.setText("Code: " + response.code());
-//                    return;
-//                }
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if(response.isSuccessful()) {
                     if(response.body()!=null && !response.body().data.isEmpty()) {
@@ -78,20 +76,10 @@ public class CoinListActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 }
-
-//                for (int i = 0; i < 15; i++) {
-//                    String content = "";
-//                    content += "Currency volume: " + coins.get(i).getCurrencyVolume() + "\n";
-//                    content += "Symbol: " + coins.get(i).getSymbol() + "\n";
-//                    content += "Currency: " + coins.get(i).getCurrency() + "\n";
-//
-//                    textView.append(content);
-//                }
             }
 
             @Override
             public void onFailure(Call<CoinsList> call, Throwable t) {
-//                textView.setText(t.getMessage());
                 t.getMessage();
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }

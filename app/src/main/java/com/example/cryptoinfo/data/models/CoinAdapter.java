@@ -38,15 +38,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(coins!=null&&!coins.isEmpty()) {
             Coin coin = coins.get(position);
-
-//            String content = "";
-//            content += "Name: " + coin.getName() + "\n";
-//            content += "Symbol: " + coin.getSymbol() + "\n";
-//            content += "Price: " + coin.getPriceUsd() + "\n";
-//            content += "Name: " + coin.getName() + "\n";
-//            content += "Symbol: " + coin.getSymbol() + "\n";
-//            content += "Price: " + coin.getPriceUsd() + "\n";
-
             holder.coinName = coin.getName();
             holder.textViewName.setText("Name: " + coin.getName());
             holder.textViewSymbol.setText("Symbol: " + coin.getSymbol());
@@ -77,7 +68,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Здійснити перехід на нову активність
                     Context context = itemView.getContext();
                     Intent intent = new Intent(context, CoinDetailsActivity.class);
                     intent.putExtra("coin_name", coinName);

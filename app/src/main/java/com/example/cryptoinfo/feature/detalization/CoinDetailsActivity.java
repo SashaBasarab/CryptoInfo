@@ -40,7 +40,6 @@ public class CoinDetailsActivity extends AppCompatActivity {
         binding.toolbar.setTitle(coin);
         setSupportActionBar(binding.toolbar);
 
-        //
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -49,13 +48,11 @@ public class CoinDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        //
 
         try {
             binding.imageView.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(dummyImage)
-                    // avoid caching to show different images each time
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(binding.imageView);
@@ -84,25 +81,11 @@ public class CoinDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().data != null) {
                         Coin coins = response.body().data;
-//                        String content = "";
-//                        content += "Name: " + coins.getName() + "\n";
-//                        content += "Symbol: " + coins.getSymbol() + "\n";
-//                        content += "Price: " + coins.getPriceUsd() + "\n";
                         binding.textViewName.setText("Name: " + coins.getName());
                         binding.textViewSymbol.setText("Symbol: " + coins.getSymbol());
                         binding.textViewPrice.setText("Price: " + coins.getPriceUsd());
-//                        binding.textview.append(content);
                     }
                 }
-
-//                for (int i = 0; i < 15; i++) {
-//                    String content = "";
-//                    content += "Currency volume: " + coins.get(i).getCurrencyVolume() + "\n";
-//                    content += "Symbol: " + coins.get(i).getSymbol() + "\n";
-//                    content += "Currency: " + coins.get(i).getCurrency() + "\n";
-//
-//                    textView.append(content);
-//                }
             }
 
             @Override
