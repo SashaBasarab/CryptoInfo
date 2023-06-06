@@ -1,4 +1,6 @@
-package com.example.cryptoinfo;
+package com.example.cryptoinfo.data.models;
+
+import com.example.cryptoinfo.data.models.Coin;
 
 import java.util.ArrayList;
 

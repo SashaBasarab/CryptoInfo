@@ -1,4 +1,4 @@
-package com.example.cryptoinfo;
+package com.example.cryptoinfo.data.models;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cryptoinfo.R;
+import com.example.cryptoinfo.feature.detalization.CoinDetailsActivity;
 
 import java.util.List;
 

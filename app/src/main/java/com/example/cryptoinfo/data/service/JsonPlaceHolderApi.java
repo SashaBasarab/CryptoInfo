@@ -1,4 +1,7 @@
-package com.example.cryptoinfo;
+package com.example.cryptoinfo.data.service;
+
+import com.example.cryptoinfo.data.models.CoinDetails;
+import com.example.cryptoinfo.data.models.CoinsList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

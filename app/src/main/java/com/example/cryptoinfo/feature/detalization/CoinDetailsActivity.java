@@ -1,24 +1,18 @@
-package com.example.cryptoinfo;
+package com.example.cryptoinfo.feature.detalization;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.cryptoinfo.data.models.CoinDetails;
+import com.example.cryptoinfo.data.models.Coin;
+import com.example.cryptoinfo.data.service.JsonPlaceHolderApi;
 import com.example.cryptoinfo.databinding.CoinDeatilsBinding;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

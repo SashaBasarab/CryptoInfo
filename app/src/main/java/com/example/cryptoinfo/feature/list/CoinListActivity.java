@@ -1,21 +1,17 @@
-package com.example.cryptoinfo;
+package com.example.cryptoinfo.feature.list;
 
 import android.os.Bundle;
 
-import com.example.cryptoinfo.databinding.FragmentFirstBinding;
+import com.example.cryptoinfo.data.models.CoinAdapter;
+import com.example.cryptoinfo.data.models.CoinsList;
+import com.example.cryptoinfo.data.models.Coin;
+import com.example.cryptoinfo.data.service.JsonPlaceHolderApi;
+import com.example.cryptoinfo.databinding.CoinListBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -26,20 +22,21 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class CoinListActivity extends AppCompatActivity {
 
     private final String  apiUrl = "https://api.coincap.io/";
 
-    private FragmentFirstBinding binding;
+    private CoinListBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = FragmentFirstBinding.inflate(getLayoutInflater());
+        binding = CoinListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // TODO: add toolbar and add surname & group
+        binding.toolbar.setTitle("Sasha Basarab IPZs-21-2");
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 //        textView = binding.textviewFirst;

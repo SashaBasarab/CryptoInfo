@@ -1,4 +1,4 @@
-package com.example.cryptoinfo;
+package com.example.cryptoinfo.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
