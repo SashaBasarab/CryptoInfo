@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.example.cryptoinfo.data.models.CoinAdapter;
 import com.example.cryptoinfo.data.models.CoinsList;
 import com.example.cryptoinfo.data.models.Coin;
+import com.example.cryptoinfo.data.service.CustomInterceptor;
 import com.example.cryptoinfo.data.service.JsonPlaceHolderApi;
 import com.example.cryptoinfo.databinding.CoinListBinding;
 
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,9 +43,15 @@ public class CoinListActivity extends AppCompatActivity {
 
 //        textView = binding.textviewFirst;
 
+        CustomInterceptor customInterceptor = new CustomInterceptor();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(customInterceptor)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(apiUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);

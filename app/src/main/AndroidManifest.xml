@@ -19,19 +19,27 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.CryptoInfo">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".feature.detalization.CoinDetailsActivity"
+            android:label="CoinDetails">
+        </activity>
+        <activity
+            android:name=".feature.splash.SplashActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".feature.detalization.CoinDetailsActivity"
-            android:label="CoinDetails">
 
-            <!-- Опціональні атрибути активності -->
-
-        </activity>
     </application>
 
 </manifest>
